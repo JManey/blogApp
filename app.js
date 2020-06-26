@@ -14,7 +14,6 @@ app.use(express.static("public"));
 //************ middleware ***********
 // this is how to get rec.body working in express
 app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
-// app.use(express.static('public'));
 
 //************** schema *********************
 const blogSchema = new mongoose.Schema({
@@ -30,7 +29,6 @@ const blogSchema = new mongoose.Schema({
 const Blog = mongoose.model("Blog", blogSchema);
 
 //**************************** */
-
 
 /************  restful routes ******** */
 
@@ -56,19 +54,17 @@ app.get("/blogs/new", function (req, res) {
 });
 
 //create route
-app.post("/blogs", function(req, res){
-    //create blog
-    // console.log("here",req.body)
-    // console.log("blog",req.body.blog)
-    Blog.create(req.body.blog, function(err, blog){
-        if(err) {
-            console.log(err);
-            res.render("new")
-        } else {
-            res.redirect("/blogs")
-        }
-    })
-})
+app.post("/blogs", function (req, res) {
+  //create blog
+  Blog.create(req.body.blog, function (err, blog) {
+    if (err) {
+      console.log(err);
+      res.render("new");
+    } else {
+      res.redirect("/blogs");
+    }
+  });
+});
 
 // ************************
 // turn on server listening

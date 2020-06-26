@@ -2,11 +2,26 @@
 
 <div class="ui main text container segment">
   <div class="ui huge header">New Blog</div>
-  <form action="/blogs" method="post">
-    <input type="text" name="blog[title]" placeholder="Title" />
-    <input type="text" name="blog[image]" placeholder="Image URL" />
-    <input type="text" name="blog[body]" placeholder="Blog Post" />
-    <input type="submit" value="Submit" />
+  <form class="ui form" action="/blogs" method="post">
+    <div class="field">
+        <label for="">Title</label>
+        <input type="text" name="blog[title]" placeholder="Title" />
+        
+    </div>
+    <div class="field">
+        <label for="">Image</label>
+        <input type="text" name="blog[image]" placeholder="Image URL" />
+        
+    </div>
+    <label for="">Blog Content</label>
+    <div class="field">
+        <textarea name="blog[body]" placeholder="Blog Post Body"></textarea>
+        
+    </div>
+    <div class="field">
+        <input class="ui green big inverted button" type="submit" value="Submit" />
+        
+    </div>
   </form>
 </div>
 
