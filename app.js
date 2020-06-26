@@ -1,19 +1,21 @@
 const express = require("express"),
   app = express(),
   mongoose = require("mongoose"),
-  PORT = 3000;
+  PORT = 3000,
+  methodOverride = require("method-override");
 
 // load the env vars
 require("dotenv").config();
 // connect to the MongoDB with mongoose
 require("./config/database");
 
+// configure app
+//************ middleware ***********
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-
-//************ middleware ***********
 // this is how to get rec.body working in express
 app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
+app.use(methodOverride("_method"));
 
 //************** schema *********************
 const blogSchema = new mongoose.Schema({
@@ -73,6 +75,40 @@ app.get("/blogs/:id", function (req, res) {
       res.redirect("/blogs");
     } else {
       res.render("show", { blog: blog });
+    }
+  });
+});
+
+//edit route
+app.get("/blogs/:id/edit", function (req, res) {
+  Blog.findById(req.params.id, function (err, blog) {
+    if (err) {
+      res.redirect("/blogs");
+    } else {
+      res.render("edit", { blog: blog });
+    }
+  });
+});
+
+// update route
+app.put("/blogs/:id", function (req, res) {
+  Blog.findByIdAndUpdate(req.params.id, req.body.blog, function (err, blog) {
+    if (err) {
+      res.redirect("/blogs");
+    } else {
+      res.redirect("blogs" + req.params.id);
+    }
+  });
+});
+
+// delete route
+// #rawr DESTROY!!!!!!!!!
+app.delete("/blogs/:id", function (req, res) {
+  Blog.findByIdAndRemove(req.params.id, function (err) {
+    if (err) {
+      res.redirect("/blogs");
+    } else {
+      res.redirect("/blogs");
     }
   });
 });
