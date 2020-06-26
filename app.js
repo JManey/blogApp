@@ -2,7 +2,8 @@ const express = require("express"),
   app = express(),
   mongoose = require("mongoose"),
   PORT = 3000,
-  methodOverride = require("method-override");
+  methodOverride = require("method-override"),
+  expressSanitizer = require("express-sanitizer");
 
 // load the env vars
 require("dotenv").config();
@@ -16,6 +17,7 @@ app.use(express.static("public"));
 // this is how to get rec.body working in express
 app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
 app.use(methodOverride("_method"));
+app.use(expressSanitizer());
 
 //************** schema *********************
 const blogSchema = new mongoose.Schema({
@@ -57,6 +59,8 @@ app.get("/blogs/new", function (req, res) {
 
 //create route
 app.post("/blogs", function (req, res) {
+  //sanitize so no rogue scripts get in
+  req.body.blog.body = req.sanitize(req.body.blog.body);
   //create blog
   Blog.create(req.body.blog, function (err, blog) {
     if (err) {
@@ -92,6 +96,7 @@ app.get("/blogs/:id/edit", function (req, res) {
 
 // update route
 app.put("/blogs/:id", function (req, res) {
+    req.body.blog.body = req.sanitize(req.body.blog.body);
   Blog.findByIdAndUpdate(req.params.id, req.body.blog, function (err, blog) {
     if (err) {
       res.redirect("/blogs");

@@ -5,17 +5,17 @@
   <form class="ui form" action="/blogs" method="post">
     <div class="field">
         <label for="">Title</label>
-        <input type="text" name="blog[title]" placeholder="Title" />
+        <input type="text" name="blog[title]" placeholder="Title" required/>
         
     </div>
     <div class="field">
         <label for="">Image</label>
-        <input type="text" name="blog[image]" placeholder="Image URL" />
+        <input type="text" name="blog[image]" placeholder="Image URL" required/>
         
     </div>
     <label for="">Blog Content</label>
     <div class="field">
-        <textarea name="blog[body]" placeholder="Blog Post Body"></textarea>
+        <textarea required name="blog[body]" placeholder="Blog Post Body"></textarea>
         
     </div>
     <div class="field">
